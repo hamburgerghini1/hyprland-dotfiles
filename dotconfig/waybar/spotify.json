@@ -1,0 +1,7 @@
+
+  "module": "custom",
+  "format": "{song}",
+  "return-type": "json",
+  "exec": "playerctl --player=spotify metadata title",
+  "interval": 5
+}

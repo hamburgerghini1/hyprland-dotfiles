@@ -1,0 +1,191 @@
+// -*- mode: json -*-
+
+{
+	"layer": "top",
+	"position": "top",
+
+	"modules-left": [
+		"sway/workspaces",
+		"idle_inhibitor",
+	],
+	"modules-center": [
+		"sway/window",
+		"clock",
+	],
+	"modules-right": [
+		"custom/spotify",
+		"memory",
+		"cpu",
+		"temperature",
+		"disk",
+		"custom/pacman",
+		"custom/keyboard-layout",
+		"custom/notification",
+		"tray",
+	],
+
+
+	"sway/workspaces": {
+		"disable-scroll": false,
+		"format": "{name}"
+	},
+
+     
+	 "custom/spotify": {
+    	 "exec": "/usr/bin/python3 /home/tommi/.config/waybar/scripts/mediaplayer.py --player spotify",
+     	 "format": "{}  ",
+    	 "return-type": "json",
+    	 "on-click": "playerctl play-pause",
+    	 "on-scroll-up": "playerctl next",
+    	 "on-scroll-down": "playerctl previous"
+	},
+
+	"custom/notification": {
+        "tooltip": false,
+        "format": "{} {icon}",
+        "format-icons": {
+            "notification": "<big></big>",
+            "none": "<big></big>",
+            "dnd-notification": "<big></big>",
+            "dnd-none": "<big></big>"
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+
+
+	"custom/pipewire": {
+    		"exec": "pw-volume status",
+    		"return-type": "json",
+    		"interval": "once",
+   	 	"signal": 8,
+    		"format": "{icon} {percentage}",
+    		"format-icons": {
+        	"mute": "",
+        	"default": ["󰕿", "󰖀", "󰕾"]
+		}
+	},
+	
+	"clock": {
+		"format": "{:%a. %d | %H:%M}",
+		"tooltip": false,
+		"on-click": "zim 'Tu Wiki' Journal:$(date +%Y):Week_$(date +%V)",
+		"on-click-right": "zim 'Universidad' Journal:$(date +%Y):Week_$(date +%V)"
+	},
+	"custom/mpd-vol": {
+		"interval": 5,
+		"format": " {}",
+		"exec": "mpc volume | tr -dc '0-9%'",
+		"on-scroll-up": "mpc volume +10",
+		"on-scroll-down": "mpc volume -10"
+	},
+	"pulseaudio": {
+		"format": "{icon} {volume:2}% {format_source}",
+		"format-bluetooth": "{icon}  {volume}%",
+		"format-muted": "MUTE",
+		"format-source": "  {volume}%",
+		"format-source-muted": " ",
+		"format-icons": {
+			"headphones": "",
+			"default": [
+				"",
+				"",
+				""
+			]
+		},
+		"scroll-step": 5,
+		"on-click-right": "amixer set Capture toggle",
+		"on-click": "pavucontrol"
+	},
+	"memory": {
+		"interval": 5,
+		"format": " {}%",
+		"on-click": "$TERM -e htop"
+	},
+	"cpu": {
+		"interval": 5,
+        "format": " {usage}%",
+		"on-click": "$TERM -e htop"
+	},
+    "temperature": {
+        "critical-threshold": 75,
+        "format": " {temperatureC}°C"
+    },
+	"battery": {
+		"states": {
+			"good": 95,
+			"warning": 30,
+			"critical": 15
+		},
+		"format": "{icon} {capacity}%",
+		"format-icons": [
+			"",
+			"",
+			"",
+			"",
+			""
+		]
+	},
+	"disk": {
+		"interval": 5,
+		"format": " {percentage_used}%",
+		"path": "/",
+		"on-click": "dolphin"
+	},
+	"custom/pacman": {
+		"format": " {}",
+		"interval": 3600, // every hour
+		"exec": "checkupdates | wc -l", // # of updates
+		"exec-if": "exit 0", // always run; consider advanced run conditions
+		"on-click": "$TERM -e up; pkill -SIGRTMIN+8 waybar", // update system
+		"signal": 8,
+	},
+	"tray": {
+		"icon-size": 20,
+		"spacing": 10
+	},
+        "custom/power": {
+      	        "format":"⏻",
+       	        "on-click": "nwg-bar",
+      	        "tooltip": false,
+        },
+        "custom/keyboard-layout": {
+      	       "exec": "swaymsg -t get_inputs | grep -m1 'xkb_active_layout_name' | cut -d '\"' -f4",
+      	       // Interval set only as a fallback, as the value is updated by signal
+      	       "interval": 30,
+      	       "format": "  {}", // Icon: keyboard
+      	       // Signal sent by Sway key binding (~/.config/sway/key-bindings)
+      	       "signal": 1, // SIGHUP
+      	       "tooltip": false,
+               "on-click": "~/.config/waybar/scripts/keyhint.sh",
+},
+       "custom/launcher": {
+    	       "format":" ",
+    	       "on-click": "exec nwg-drawer -c 7 -is 70 -spacing 23",
+    	       "tooltip": false,
+},
+	
+       "type": "custom/cider-waybar",
+       "settings": {}
+},
+
+
+      "idle_inhibitor": {
+           "format": "{icon}",
+           "format-icons": {
+              "activated": "",
+              "deactivated": "",
+        }
+},
+    "custom/exit": {
+		"tooltip": false,
+		"format": "⏻",
+		"on-click": "swaymsg exit",
+		"on-click-right": "systemctl poweroff",
+		"on-click-middle": "systemctl reboot"
+	}
+}
