@@ -46,15 +46,6 @@ adobe-source-code-pro-fonts brightnessctl hyprpicker-git
 - Hyprland is in beta (version 0.2) at the time of creating these configuration files.
 - Occasionally, the RX5700XT may go to sleep and require a reload due to a stuck black screen.
 
-## Roadmap
-
-- [ ] Hotkey for Help Popup
-- [ ] Wayland guide for nwg-look, wlr-randr, etc.
-- [ ] Synergy Workaround - Exploring waynergy or KVM usage
-- [ ] Gamescope Integration - Enhancing compatibility with Steamdeck features
-- [x] Additional Customizations for Waybar - Battery, Backlight, etc.
-- [ ] Automatic Configuration - Long-term goal
-
 ## References
 
 - Official Hyprland GitHub: <https://github.com/hyprwm/Hyprland>
